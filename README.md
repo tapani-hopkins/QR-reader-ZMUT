@@ -1,27 +1,9 @@
 # QR reader (ZMUT)
-QR reader for the Zoological Museum of the University of Turku, Finland. This is used to read barcodes with a webcam, and save the results to a file. Generally the barcodes will be specimen identifiers (e.g. QR codes on insect labels) but other codes can also be read.
+QR readers for the Zoological Museum of the University of Turku, Finland. These are used to read barcodes with a webcam, and save the results to a file. Generally the barcodes will be specimen identifiers (e.g. QR codes on insect labels) but other codes can also be read.
 
 
 ## Licence in a nutshell
 Use any way you want but please attribute. The reader uses both [webcam-capture](https://github.com/sarxos/webcam-capture) and [Zxing](https://github.com/zxing/zxing) - see the 'Licences' folder for all the relevant licences.
-
-
-## How to run
-With apologies to more experienced java programmers.. I'm not one, nor are most users of this QR reader, so here are the basic instructions:
-- download all the files and check java is installed on your computer
-- open Terminal (mac users) or cmd (windows users) and go to the folder. 
-- run with the `java` command, adding all the files in the `libs` folder to the classpath. For example: 
-`java -classpath "libs/webcamread.jar":"libs/bridj-0.6.2.jar":"libs/slf4j-api-1.7.2.jar":"libs/core-2.0.jar":"libs/javase-2.0.jar":"." QRreader`
-
-Here's an an example of how to do it on my Mac, including how to compile the .java files:
-```
-cd "/Volumes/Data/T/Writings, news articles, scripts, music/Programming/QR reader 2016"
-
-javac -classpath "libs/webcamread.jar":"libs/bridj-0.6.2.jar":"libs/slf4j-api-1.7.2.jar":"libs/core-2.0.jar":"libs/javase-2.0.jar" QRreader.java
-
-java -classpath "libs/webcamread.jar":"libs/bridj-0.6.2.jar":"libs/slf4j-api-1.7.2.jar":"libs/core-2.0.jar":"libs/javase-2.0.jar":"." QRreader
-
-```
 
 
 ## Files
@@ -52,3 +34,21 @@ The files are created in the folder 'ZMUT changes' and given a distinct timestam
 **Not ready yet**
 
 A barcode reader for changing the location data of specimens. Reads the barcodes of specimens, boxes, shelves etc, then saves their new location. (e.g. to move a box of insects to a different shelf or an insect between boxes)
+
+
+## How to run
+With apologies to more experienced java programmers.. I'm not one, nor are most users of this QR reader, so here are the basic instructions:
+- download all the files and check java is installed on your computer
+- open Terminal (mac users) or cmd (windows users) and go to the folder. 
+- run with the `java` command, adding all the files in the `libs` folder to the classpath. For example: 
+`java -classpath "libs/webcamread.jar":"libs/bridj-0.6.2.jar":"libs/slf4j-api-1.7.2.jar":"libs/core-2.0.jar":"libs/javase-2.0.jar":"." QRreader`
+
+Here's an an example of how to do it on my Mac, including how to compile the .java files:
+```
+cd "/Volumes/Data/T/Writings, news articles, scripts, music/Programming/QR reader 2016"
+
+javac -classpath "libs/webcamread.jar":"libs/bridj-0.6.2.jar":"libs/slf4j-api-1.7.2.jar":"libs/core-2.0.jar":"libs/javase-2.0.jar" QRreader.java
+
+java -classpath "libs/webcamread.jar":"libs/bridj-0.6.2.jar":"libs/slf4j-api-1.7.2.jar":"libs/core-2.0.jar":"libs/javase-2.0.jar":"." QRreader
+
+```
