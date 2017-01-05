@@ -1,3 +1,3 @@
-- [] Finish ZMUTchange
+- [x] Finish ZMUTchange
 - [] Finish ZMUTmove
 - [] Simplify how to run the programs (javac -classfile etc is not very convenient..)
