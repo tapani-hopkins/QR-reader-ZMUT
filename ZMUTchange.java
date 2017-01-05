@@ -37,18 +37,25 @@ public class ZMUTchange extends JFrame implements Runnable, ThreadFactory, Actio
 	private Webcam webcam = null;
 	private WebcamPanel panel = null;
 	private JTextArea textarea = null;
+	private JTextArea header1 = null;
+	private JTextArea header2 = null;
 	public JPanel rightpanel = null;
 	public JComboBox cameraList = null;
 	
 	public JComboBox field1 = null;
 	public JComboBox field2 = null;
 	public JComboBox field3 = null;
+	public JComboBox field4 = null;
+	public JComboBox field5 = null;
 	public JTextArea change1 = null;
 	public JTextArea change2 = null;
 	public JTextArea change3 = null;
+	public JTextArea change4 = null;
+	public JTextArea change5 = null;
+	public int codes = 0;
 
-	public String [] fields = new String [] {"1.1.1. Taxon rank", "1.1.1. Taxon name", "1.1.1. Det" } ;
-	public String [] fieldnames = new String [] {"MYGathering[0][MYUnit][0][MYIdentification][0][MYTaxonRank]", "MYGathering[0][MYUnit][0][MYIdentification][0][MYTaxon]", "MYGathering[0][MYUnit][0][MYIdentification][0][MYDet]" } ;
+	public String [] fields = new String [] {"", "1.1.1. Taxon rank", "1.1.1. Taxon name", "1.1.1. Det" } ;
+	public String [] fieldnames = new String [] {"", "MYGathering[0][MYUnit][0][MYIdentification][0][MYTaxonRank]", "MYGathering[0][MYUnit][0][MYIdentification][0][MYTaxon]", "MYGathering[0][MYUnit][0][MYIdentification][0][MYDet]" } ;
 	public int maxCodes = 1000; // maximum number of codes per file (typically 1000)
 	public String [] QRcodes = new String[maxCodes];
 	boolean cropImage = true; // if true, the webcam image is cropped so that only the QR code near the centre is read (currently does not work very well!)
@@ -74,8 +81,21 @@ public class ZMUTchange extends JFrame implements Runnable, ThreadFactory, Actio
 		// Draw the screen into the window
 		drawScreen(true);
 		
-		// Listen for changes to the drop down menu and start the program
+		// Listen for changes to the drop down menus
 		cameraList.addActionListener(this);
+		cameraList.setActionCommand("cameralist");
+		field1.addActionListener(this);
+		field1.setActionCommand("field1");
+		field2.addActionListener(this);
+		field2.setActionCommand("field2");
+		field3.addActionListener(this);
+		field3.setActionCommand("field3");
+		field4.addActionListener(this);
+		field4.setActionCommand("field4");
+		field5.addActionListener(this);
+		field5.setActionCommand("field5");
+		
+		// Start the program
 		executor.execute(this);
 		
 	}
@@ -87,7 +107,7 @@ public class ZMUTchange extends JFrame implements Runnable, ThreadFactory, Actio
 
 		String qrstring = "No QR code read yet";
 		String textareaText = "\n\n\n\n\n\n\n\n"; // Change this if you want more/less lines of text in the text area (e.g. "\n\n" is 3 lines)
-		int codes = 0; // Keep track of how many codes have been read
+		codes = 0; // Keep track of how many codes have been read
 		int files = 0; // keep track of how many files the codes span
 		String filename = "EMPTY FILE created by error in ZMUTchange.csv";
 		String filename2 = "EMPTY FILE created by error in ZMUTchange.txt";
@@ -152,10 +172,33 @@ public class ZMUTchange extends JFrame implements Runnable, ThreadFactory, Actio
 						// Create the csv file
 						try {
 							// Give the csv file a name and place it in the "ZMUT codes" folder
-							filename = "ZMUT codes/ZMUT codes " + timestamp + ".csv";
+							filename = "ZMUT changes/ZMUT changes " + timestamp + ".csv";
 							BufferedWriter out = new BufferedWriter(new FileWriter(filename, true));
-							out.append("MYNamespaceID,MYObjectID" + "\n");
-							out.append("Namespace ID,Object ID" + "\n");
+							// Create two header rows
+							String changes1 = "";
+							String changes2 = "";
+							if (field1.getSelectedIndex() !=0 ){ 
+								changes1 = changes1 + "," + fieldnames[field1.getSelectedIndex()]; 
+								changes2 = changes2 + "," + fields[field1.getSelectedIndex()]; 
+							}
+							if (field2.getSelectedIndex() !=0 ){ 
+								changes1 = changes1 + "," + fieldnames[field2.getSelectedIndex()]; 
+								changes2 = changes2 + "," + fields[field2.getSelectedIndex()]; 
+							}
+							if (field3.getSelectedIndex() !=0 ){ 
+								changes1 = changes1 + "," + fieldnames[field3.getSelectedIndex()]; 
+								changes2 = changes2 + "," + fields[field3.getSelectedIndex()]; 
+							}
+							if (field4.getSelectedIndex() !=0 ){ 
+								changes1 = changes1 + "," + fieldnames[field4.getSelectedIndex()]; 
+								changes2 = changes2 + "," + fields[field4.getSelectedIndex()]; 
+							}
+							if (field5.getSelectedIndex() !=0 ){ 
+								changes1 = changes1 + "," + fieldnames[field5.getSelectedIndex()]; 
+								changes2 = changes2 + "," + fields[field5.getSelectedIndex()]; 
+							}
+							out.append("MYNamespaceID,MYObjectID" + changes1 + "\n");
+							out.append("Namespace ID,Object ID" + changes2 + "\n");
 							out.close();
 						}
 						catch (IOException e)
@@ -166,7 +209,7 @@ public class ZMUTchange extends JFrame implements Runnable, ThreadFactory, Actio
 						// Create the txt file
 						try {
 							// Give the txt file the same name as the csv file (but different extension) and place it in the "ZMUT codes" folder
-							filename2 = "ZMUT codes/ZMUT codes " + timestamp + ".txt";
+							filename2 = "ZMUT changes/ZMUT changes " + timestamp + ".txt";
 							BufferedWriter out = new BufferedWriter(new FileWriter(filename2, true));
 							out.close();
 						}
@@ -206,6 +249,13 @@ public class ZMUTchange extends JFrame implements Runnable, ThreadFactory, Actio
 						continue;
 					}
 
+					// Add the changed values
+					if (field1.getSelectedItem()!=""){ Kotkatext = Kotkatext + "," + change1.getText(); }
+					if (field2.getSelectedItem()!=""){ Kotkatext = Kotkatext + "," + change2.getText(); }
+					if (field3.getSelectedItem()!=""){ Kotkatext = Kotkatext + "," + change3.getText(); }
+					if (field4.getSelectedItem()!=""){ Kotkatext = Kotkatext + "," + change4.getText(); }
+					if (field5.getSelectedItem()!=""){ Kotkatext = Kotkatext + "," + change5.getText(); }
+					
 					// Write the QR code to the screen
 					//	Drop the last line of text from the screen, then add this code as the new first line
 					textareaText = textareaText.substring(0, textareaText.lastIndexOf("\n")); 
@@ -248,12 +298,21 @@ public class ZMUTchange extends JFrame implements Runnable, ThreadFactory, Actio
 	
 	// Method for handling changes to drop down menus, button clicks etc
 	public void actionPerformed(ActionEvent e) {
+		String menu = e.getActionCommand();
 		
 		// Change the camera if the drop down menu is clicked
-        JComboBox cb = (JComboBox)e.getSource();
-		int cam = (int) cb.getSelectedIndex();
-		changeCam(cam);
-
+		if (menu=="cameralist"){
+			JComboBox cb = (JComboBox)e.getSource();
+			int cam = (int) cb.getSelectedIndex();
+			changeCam(cam);
+		}
+		
+		// Start new files, and forget all the QR codes that have been read, if any of the fields change
+		if (menu=="field1" || menu=="field2" || menu=="field3" || menu=="field4" || menu=="field5"){
+			codes = 0;
+			QRcodes = new String[maxCodes];
+		}
+		
     }
 	
 	
@@ -265,6 +324,9 @@ public class ZMUTchange extends JFrame implements Runnable, ThreadFactory, Actio
 		remove(panel);
 		remove(textarea);
 		remove(cameraList);
+		remove(header1);
+		remove(header2);
+		remove(rightpanel);
 		
 		// Open the new webcam
 		openCam(cam);
@@ -315,13 +377,25 @@ public class ZMUTchange extends JFrame implements Runnable, ThreadFactory, Actio
 		panel.setPreferredSize(size);
 		
 		// Create a panel in which to place the numerous drop down menus and text areas (used to change data fields). 
-		rightpanel = new JPanel(new GridLayout(0,2,2,10));
-		rightpanel.add(field1);
-		rightpanel.add(change1);
-		rightpanel.add(field2);
-		rightpanel.add(change2);
-		rightpanel.add(field3);
-		rightpanel.add(change3);
+		if (newScreen){
+			rightpanel = new JPanel(new GridLayout(0,2,2,10));
+			header1 = new JTextArea("Change:");
+			header2 = new JTextArea("Change to:");
+			header1.setEditable(false);
+			header2.setEditable(false);
+			rightpanel.add(header1);
+			rightpanel.add(header2);
+			rightpanel.add(field1);
+			rightpanel.add(change1);
+			rightpanel.add(field2);
+			rightpanel.add(change2);
+			rightpanel.add(field3);
+			rightpanel.add(change3);
+			rightpanel.add(field4);
+			rightpanel.add(change4);
+			rightpanel.add(field5);
+			rightpanel.add(change5);
+		}
 		
 		// Add all the parts to the window and pack them
 		add(panel, BorderLayout.LINE_START);
@@ -348,23 +422,29 @@ public class ZMUTchange extends JFrame implements Runnable, ThreadFactory, Actio
 		field1 = new JComboBox( fields );
 		field2 = new JComboBox( fields );
 		field3 = new JComboBox( fields );
+		field4 = new JComboBox( fields );
+		field5 = new JComboBox( fields );
+
 		// Drop down menus for typing in changes to the data fields (e.g. to the subfamily)
 		change1 = new JTextArea();
 		change2 = new JTextArea();
 		change3 = new JTextArea();
+		change4 = new JTextArea();
+		change5 = new JTextArea();
+		
 	}
 	
 	
 	@Override
 	public Thread newThread(Runnable r) {
-		Thread t = new Thread(r, "zmutread");
+		Thread t = new Thread(r, "zmutchange");
 		t.setDaemon(true);
 		return t;
 	}
 
 	
 	public static void main(String[] args) {
-		new ZMUTchange(0);	// Change the starting webcam from here (0 is the default webcam)
+		new ZMUTchange(1);	// Change the starting webcam from here (0 is the default webcam)
 	}
 	
 	
