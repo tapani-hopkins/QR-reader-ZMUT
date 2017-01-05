@@ -22,13 +22,12 @@ The files are created in the folder 'ZMUT codes' and given a distinct timestamp.
 NB. The reader tries to read only specimen codes, but it may accept *any* barcode shown to the webcam. If you've accidentally scanned e.g. a clothes tag, you can prevent it becoming a formal museum specimen by deleting it from the .csv and .txt file :smiley:
 
 #### ZMUTchange.java
-**Not ready yet**
 
 A barcode reader for modifying specimen data in Kotka. (e.g. to add an identification) Reads specimen barcodes from a webcam, then saves them and the changes to be made to them in Kotka format. It will create two files:
 - a .csv file which can be saved as excel and imported into Kotka. This contains the ID:s, namespaces and the changed data fields of all the scanned specimens.
 - a .txt file with a list of the scanned specimens. This can be pasted into the Kotka search field to view the specimens.
 
-The files are created in the folder 'ZMUT changes' and given a distinct timestamp. New files are created after 1000 specimens (files larger than this cannot be imported into Kotka).
+The files are created in the folder 'ZMUT changes' and given a distinct timestamp. New files are created after 1000 specimens (files larger than this cannot be imported into Kotka), or whenever new data fields are selected.
 
 #### ZMUTmove.java
 **Not ready yet**
