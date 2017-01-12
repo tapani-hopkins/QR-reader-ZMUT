@@ -1,5 +1,3 @@
-// NB not finished, currently this is almost the same as ZMUTmove //
-
 import com.github.sarxos.webcam.*;
 
 import java.awt.Dimension;
@@ -53,12 +51,13 @@ public class ZMUTchange extends JFrame implements Runnable, ThreadFactory, Actio
 	public JTextArea change4 = null;
 	public JTextArea change5 = null;
 	public int codes = 0;
+	public String qrstring;
 
 	public String [] fields = new String [] {"", "1.1.1. Taxon rank", "1.1.1. Taxon name", "1.1.1. Det" } ;
 	public String [] fieldnames = new String [] {"", "MYGathering[0][MYUnit][0][MYIdentification][0][MYTaxonRank]", "MYGathering[0][MYUnit][0][MYIdentification][0][MYTaxon]", "MYGathering[0][MYUnit][0][MYIdentification][0][MYDet]" } ;
 	public int maxCodes = 1000; // maximum number of codes per file (typically 1000)
 	public String [] QRcodes = new String[maxCodes];
-	boolean cropImage = true; // if true, the webcam image is cropped so that only the QR code near the centre is read (currently does not work very well!)
+	boolean cropImage = false; // if true, the webcam image is cropped so that only the QR code near the centre is read (currently does not work very well!)
 
 	
 	// Constructor:
@@ -105,7 +104,7 @@ public class ZMUTchange extends JFrame implements Runnable, ThreadFactory, Actio
 	@Override
 	public void run() {
 
-		String qrstring = "No QR code read yet";
+		qrstring = "No QR code read yet";
 		String textareaText = "\n\n\n\n\n\n\n\n"; // Change this if you want more/less lines of text in the text area (e.g. "\n\n" is 3 lines)
 		codes = 0; // Keep track of how many codes have been read
 		int files = 0; // keep track of how many files the codes span
@@ -311,6 +310,7 @@ public class ZMUTchange extends JFrame implements Runnable, ThreadFactory, Actio
 		if (menu=="field1" || menu=="field2" || menu=="field3" || menu=="field4" || menu=="field5"){
 			codes = 0;
 			QRcodes = new String[maxCodes];
+			qrstring = "No QR code read yet";
 		}
 		
     }
